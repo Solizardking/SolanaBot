@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { type ApprovalInbox, api } from "../src/api";
 import { authClient } from "../src/auth";
+import { colors } from "../src/ui";
 import { useLoad } from "../src/use-load";
 export default function ApprovalsScreen() {
   const { requestId } = useLocalSearchParams<{ requestId?: string }>();
@@ -63,6 +64,7 @@ export default function ApprovalsScreen() {
   }
   return (
     <ScrollView
+      style={{ flex: 1, backgroundColor: colors.background }}
       contentContainerStyle={{ padding: 20, gap: 16 }}
       refreshControl={
         <RefreshControl
@@ -73,7 +75,9 @@ export default function ApprovalsScreen() {
         />
       }
     >
-      <Text style={{ fontSize: 24, fontWeight: "600" }}>
+      <Text
+        style={{ fontSize: 24, fontWeight: "600", color: colors.foreground }}
+      >
         Questions and approvals
       </Text>
       {(error || inbox.error) && (
@@ -106,6 +110,7 @@ export default function ApprovalsScreen() {
               {JSON.stringify(request.preview ?? request.action?.args, null, 2)}
             </Text>
             <Button
+              color={colors.link}
               disabled={Boolean(busy)}
               title="Allow once"
               onPress={() => {
@@ -113,6 +118,7 @@ export default function ApprovalsScreen() {
               }}
             />
             <Button
+              color={colors.link}
               disabled={Boolean(busy)}
               title="Always allow this scope"
               onPress={() => {
@@ -120,6 +126,7 @@ export default function ApprovalsScreen() {
               }}
             />
             <Button
+              color={colors.link}
               disabled={Boolean(busy)}
               title="Deny"
               onPress={() => {
@@ -153,6 +160,7 @@ export default function ApprovalsScreen() {
             style={{ borderWidth: 1, padding: 10 }}
           />
           <Button
+            color={colors.link}
             disabled={Boolean(busy) || !answers[question.id]?.trim()}
             title="Send answer"
             onPress={() => {

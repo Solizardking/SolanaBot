@@ -5,6 +5,7 @@ import { api, type Memory } from "../src/api";
 import { authClient } from "../src/auth";
 import {
   card,
+  colors,
   heading,
   input,
   muted,
@@ -64,6 +65,7 @@ export default function MemoryScreen() {
           style={input}
         />
         <Button
+          color={colors.link}
           title="Remember this"
           disabled={Boolean(action.busy) || !draft.trim()}
           onPress={() => {
@@ -97,6 +99,7 @@ export default function MemoryScreen() {
               />
               <View style={{ flexDirection: "row", gap: 8 }}>
                 <Button
+                  color={colors.link}
                   title="Save"
                   disabled={Boolean(action.busy) || !editing.content.trim()}
                   onPress={() => {
@@ -107,7 +110,11 @@ export default function MemoryScreen() {
                     });
                   }}
                 />
-                <Button title="Cancel" onPress={() => setEditing(undefined)} />
+                <Button
+                  color={colors.link}
+                  title="Cancel"
+                  onPress={() => setEditing(undefined)}
+                />
               </View>
             </>
           ) : (
@@ -142,6 +149,7 @@ export default function MemoryScreen() {
             <View style={{ flexDirection: "row", gap: 4 }}>
               {memory.reviewState === "unreviewed" && (
                 <Button
+                  color={colors.link}
                   title="Confirm"
                   disabled={Boolean(action.busy)}
                   onPress={() => {
@@ -150,6 +158,7 @@ export default function MemoryScreen() {
                 />
               )}
               <Button
+                color={colors.link}
                 title="Edit"
                 disabled={Boolean(action.busy)}
                 onPress={() =>
@@ -157,6 +166,7 @@ export default function MemoryScreen() {
                 }
               />
               <Button
+                color={colors.link}
                 title="Delete"
                 disabled={Boolean(action.busy)}
                 onPress={() =>

@@ -11,7 +11,9 @@ import {
 import { api, type Conversation } from "../src/api";
 import { authClient, serverUrl, signIn, signInEnterprise } from "../src/auth";
 import { registerPush, unregisterPush } from "../src/notifications";
+import { BrandMark, colors, input } from "../src/ui";
 import { useLoad } from "../src/use-load";
+import { SolanaWallet } from "../src/wallet";
 export default function Home() {
   const { data: session, isPending } = authClient.useSession();
   const [error, setError] = useState("");
@@ -71,6 +73,7 @@ export default function Home() {
   }
   return (
     <ScrollView
+      style={{ flex: 1, backgroundColor: colors.background }}
       contentContainerStyle={{ padding: 20, gap: 16 }}
       refreshControl={
         <RefreshControl
@@ -81,26 +84,31 @@ export default function Home() {
         />
       }
     >
-      <Text style={{ fontSize: 24, fontWeight: "600" }}>
+      <BrandMark />
+      <Text
+        style={{ fontSize: 24, fontWeight: "600", color: colors.foreground }}
+      >
         {session
           ? `Welcome, ${session.user.name ?? session.user.email}`
           : "Sign in to OpenBot"}
       </Text>
-      <Text>{serverUrl}</Text>
+      <Text style={{ color: colors.foreground }}>{serverUrl}</Text>
       {(error || options.error || conversations.error) && (
         <Text accessibilityRole="alert" style={{ color: "#b42318" }}>
           {error || options.error || conversations.error}
         </Text>
       )}
+      <SolanaWallet />
       {!session ? (
         <View style={{ gap: 12 }}>
-          <Text>
+          <Text style={{ color: colors.foreground }}>
             {isPending
               ? "Checking your session…"
               : "Continue with your organization account."}
           </Text>
           {options.data?.authProviders?.map((provider) => (
             <Button
+              color={colors.link}
               key={provider}
               disabled={busy}
               title={`Sign in with ${provider}`}
@@ -117,13 +125,15 @@ export default function Home() {
               <TextInput
                 accessibilityLabel="Work email"
                 placeholder="Work email"
+                placeholderTextColor={colors.muted}
                 keyboardType="email-address"
                 autoCapitalize="none"
                 value={email}
                 onChangeText={setEmail}
-                style={{ borderWidth: 1, padding: 12 }}
+                style={input}
               />
               <Button
+                color={colors.link}
                 disabled={busy || !email}
                 title="Continue with organization"
                 onPress={() => {
@@ -135,16 +145,17 @@ export default function Home() {
         </View>
       ) : (
         <>
-          <Link href="/approvals" style={{ fontSize: 18, color: "#2563eb" }}>
+          <Link href="/approvals" style={{ fontSize: 18, color: colors.link }}>
             Questions and approvals
           </Link>
-          <Link href="/bots" style={{ fontSize: 18, color: "#2563eb" }}>
+          <Link href="/bots" style={{ fontSize: 18, color: colors.link }}>
             Bots, routines and computers
           </Link>
-          <Link href="/memory" style={{ fontSize: 18, color: "#2563eb" }}>
+          <Link href="/memory" style={{ fontSize: 18, color: colors.link }}>
             Memory
           </Link>
           <Button
+            color={colors.link}
             disabled={busy}
             title={
               pushRegistered ? "Notifications enabled" : "Enable notifications"
@@ -156,7 +167,15 @@ export default function Home() {
               });
             }}
           />
-          <Text style={{ fontSize: 20, fontWeight: "600" }}>Conversations</Text>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "600",
+              color: colors.foreground,
+            }}
+          >
+            Conversations
+          </Text>
           {allConversations.map((conversation) => (
             <Link
               key={conversation.id}
@@ -164,7 +183,7 @@ export default function Home() {
                 pathname: "/conversation",
                 params: { channelId: conversation.id },
               }}
-              style={{ paddingVertical: 12, color: "#2563eb" }}
+              style={{ paddingVertical: 12, color: colors.link }}
             >
               {conversation.name}
               {conversation.active ? "" : " (inactive)"}
@@ -172,6 +191,7 @@ export default function Home() {
           ))}
           {nextCursor && (
             <Button
+              color={colors.link}
               title="Older conversations"
               disabled={busy}
               onPress={() => {
@@ -189,11 +209,12 @@ export default function Home() {
             />
           )}
           {allConversations.length === 0 && (
-            <Text>
+            <Text style={{ color: colors.foreground }}>
               No conversations yet. Create one in OpenBot on your computer.
             </Text>
           )}
           <Button
+            color={colors.link}
             disabled={busy}
             title="Sign out"
             onPress={() => {

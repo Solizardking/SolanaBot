@@ -228,6 +228,7 @@ export default function RulesScreen() {
             />
             <BehaviourPicker value={behaviour} onChange={setBehaviour} />
             <Button
+              color={colors.link}
               title="Add rule"
               disabled={Boolean(action.busy) || !toolRef.trim()}
               onPress={() => {

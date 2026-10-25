@@ -235,6 +235,7 @@ export default function ComputerScreen() {
             style={input}
           />
           <Button
+            color={colors.link}
             title="Enter it for the Bot"
             disabled={!secret || Boolean(action.busy)}
             onPress={() => {
@@ -299,6 +300,7 @@ export default function ComputerScreen() {
           />
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6 }}>
             <Button
+              color={colors.link}
               title="Type"
               disabled={!text || Boolean(action.busy)}
               onPress={() => {
@@ -309,6 +311,7 @@ export default function ComputerScreen() {
             />
             {(["Enter", "Tab", "Backspace", "Escape"] as const).map((key) => (
               <Button
+                color={colors.link}
                 key={key}
                 title={key}
                 disabled={Boolean(action.busy)}
@@ -318,12 +321,14 @@ export default function ComputerScreen() {
               />
             ))}
             <Button
+              color={colors.link}
               title="Scroll up"
               onPress={() => {
                 void send("scroll", { deltaY: -500 });
               }}
             />
             <Button
+              color={colors.link}
               title="Scroll down"
               onPress={() => {
                 void send("scroll", { deltaY: 500 });
@@ -331,6 +336,7 @@ export default function ComputerScreen() {
             />
           </View>
           <Button
+            color={colors.link}
             title="Return control to the Bot"
             disabled={Boolean(action.busy)}
             onPress={() => {
@@ -347,6 +353,7 @@ export default function ComputerScreen() {
         </View>
       ) : (
         <Button
+          color={colors.link}
           title="Take control"
           disabled={Boolean(action.busy) || control?.transitioning}
           onPress={() => {

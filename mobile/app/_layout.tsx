@@ -1,8 +1,15 @@
+import { MobileWalletProvider } from "@wallet-ui/react-native-kit";
 import * as Notifications from "expo-notifications";
 import { router, Stack } from "expo-router";
 import { useEffect, useRef } from "react";
+import { Appearance, StatusBar } from "react-native";
 import { authClient } from "../src/auth";
 import { notificationDestination } from "../src/links";
+import { openBotSolanaCluster } from "../src/solana-cluster";
+import { openBotIdentity } from "../src/solana-mobile";
+import { colors } from "../src/ui";
+
+Appearance.setColorScheme("dark");
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -35,17 +42,31 @@ export default function Layout() {
     return () => subscription.remove();
   }, [session]);
   return (
-    <Stack screenOptions={{ headerBackTitle: "Back" }}>
-      <Stack.Screen name="index" options={{ title: "OpenBot" }} />
-      <Stack.Screen name="conversation" options={{ title: "Conversation" }} />
-      <Stack.Screen name="approvals" options={{ title: "Approval inbox" }} />
-      <Stack.Screen name="bots" options={{ title: "Bots" }} />
-      <Stack.Screen name="bot" options={{ title: "Bot" }} />
-      <Stack.Screen name="computer" options={{ title: "Computer" }} />
-      <Stack.Screen name="routine" options={{ title: "Routine" }} />
-      <Stack.Screen name="memory" options={{ title: "Memory" }} />
-      <Stack.Screen name="rules" options={{ title: "Custom rules" }} />
-      <Stack.Screen name="plugins" options={{ title: "Plugins" }} />
-    </Stack>
+    <MobileWalletProvider
+      cluster={openBotSolanaCluster()}
+      identity={openBotIdentity()}
+    >
+      <StatusBar barStyle="light-content" />
+      <Stack
+        screenOptions={{
+          headerBackTitle: "Back",
+          headerStyle: { backgroundColor: colors.background },
+          headerTintColor: colors.accent,
+          headerTitleStyle: { color: colors.foreground },
+          contentStyle: { backgroundColor: colors.background },
+        }}
+      >
+        <Stack.Screen name="index" options={{ title: "OpenBot" }} />
+        <Stack.Screen name="conversation" options={{ title: "Conversation" }} />
+        <Stack.Screen name="approvals" options={{ title: "Approval inbox" }} />
+        <Stack.Screen name="bots" options={{ title: "Bots" }} />
+        <Stack.Screen name="bot" options={{ title: "Bot" }} />
+        <Stack.Screen name="computer" options={{ title: "Computer" }} />
+        <Stack.Screen name="routine" options={{ title: "Routine" }} />
+        <Stack.Screen name="memory" options={{ title: "Memory" }} />
+        <Stack.Screen name="rules" options={{ title: "Custom rules" }} />
+        <Stack.Screen name="plugins" options={{ title: "Plugins" }} />
+      </Stack>
+    </MobileWalletProvider>
   );
 }

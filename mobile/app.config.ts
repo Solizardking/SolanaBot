@@ -6,8 +6,9 @@ const config: ExpoConfig = {
   slug: "openbot",
   version: "0.0.1",
   scheme: "openbotmobile",
+  userInterfaceStyle: "dark",
   ios: { bundleIdentifier: "ai.openbot.mobile", supportsTablet: true },
-  android: { package: "ai.openbot.mobile" },
+  android: { package: "ai.openbot.mobile", versionCode: 1 },
   plugins: [
     "expo-router",
     "expo-secure-store",

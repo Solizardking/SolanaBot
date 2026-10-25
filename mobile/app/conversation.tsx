@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { api, type Conversation, type TranscriptMessage } from "../src/api";
 import { authClient } from "../src/auth";
+import { colors } from "../src/ui";
 import { useLoad } from "../src/use-load";
 export default function ConversationScreen() {
   const {
@@ -82,13 +83,21 @@ export default function ConversationScreen() {
     }
   }
   return (
-    <View style={{ flex: 1, padding: 16, gap: 12 }}>
+    <View
+      style={{
+        flex: 1,
+        padding: 16,
+        gap: 12,
+        backgroundColor: colors.background,
+      }}
+    >
       <Text style={{ fontSize: 22, fontWeight: "600" }}>
         {conversation?.name ?? "Conversation"}
       </Text>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
         {conversation?.agentIds.map((id) => (
           <Button
+            color={colors.link}
             key={id}
             title={id === agentId ? `${id} ✓` : id}
             onPress={() => setAgentId(id)}
@@ -151,6 +160,7 @@ export default function ConversationScreen() {
         }}
       />
       <Button
+        color={colors.link}
         title={sending ? "Sending…" : "Send"}
         disabled={!conversation?.active || !agentId || !text.trim() || sending}
         onPress={() => {

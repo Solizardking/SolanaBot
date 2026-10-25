@@ -114,6 +114,7 @@ export default function RoutineScreen() {
             </Text>
           </View>
           <Button
+            color={colors.link}
             title={running ? "Running…" : "Run now"}
             disabled={!routine.enabled || Boolean(action.busy) || running}
             onPress={() => {

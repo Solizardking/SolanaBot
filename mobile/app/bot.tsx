@@ -147,6 +147,7 @@ export default function BotScreen() {
         </View>
       </View>
       <Button
+        color={colors.link}
         title="Open computer"
         onPress={() =>
           router.push({ pathname: "/computer", params: { botId } })
@@ -205,6 +206,7 @@ export default function BotScreen() {
         ))}
         {mine?.length === 0 && <Text style={muted}>No routines yet.</Text>}
         <Button
+          color={colors.link}
           title="Add routine"
           disabled={Boolean(action.busy)}
           onPress={() => {

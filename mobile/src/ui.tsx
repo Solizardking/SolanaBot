@@ -52,7 +52,7 @@ export function BrandMark() {
   return (
     <View style={{ gap: 12 }}>
       <Image
-        accessibilityLabel="OpenBot"
+        accessibilityLabel="ChatGPTEE"
         source={require("../assets/brand/clawd-mascot-dark.png")}
         style={{ width: 72, height: 72 }}
       />

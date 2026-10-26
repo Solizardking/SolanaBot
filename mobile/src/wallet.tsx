@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Button, Platform, Text, View } from "react-native";
 import {
   messageBytes,
-  openBotIdentity,
+  chatgpteeIdentity,
   SEND_MEMO_TEXT,
   SIGN_MESSAGE_TEXT,
   sendMemoInstruction,
@@ -16,12 +16,12 @@ import {
   sessionAfterDisconnect,
   sessionAfterRestore,
   sessionAfterSeekerError,
-  signInPayload,
   type WalletSession,
 } from "./solana-mobile";
+import { signInWithWallet } from "./auth";
 import { colors, Problem, Section } from "./ui";
 
-const identity = openBotIdentity();
+const identity = chatgpteeIdentity();
 
 function seekerCode(error: unknown): string {
   if (error instanceof SeekerConnectError) return error.code;
@@ -29,14 +29,17 @@ function seekerCode(error: unknown): string {
 }
 
 /** Mobile Wallet Adapter on Android, plus a direct Seeker connect. */
-export function SolanaWallet() {
+export function SolanaWallet({
+  onSignedIn,
+}: {
+  onSignedIn?: () => void;
+} = {}) {
   const {
     account,
     chain,
     connect,
     disconnect,
     sendTransactions,
-    signIn,
     signMessages,
   } = useMobileWallet();
   const mobile = account
@@ -109,7 +112,7 @@ export function SolanaWallet() {
   return (
     <Section title="Wallet">
       <Text style={{ color: colors.muted }}>
-        Connect a wallet on this phone. OpenBot never asks for a recovery
+        Connect a wallet on this phone. ChatGPTEE never asks for a recovery
         phrase.
       </Text>
       <Text style={{ color: colors.foreground }}>Network {chain}</Text>
@@ -136,14 +139,12 @@ export function SolanaWallet() {
             title="Sign in with Solana"
             onPress={() => {
               void run(async () => {
-                const result = await signIn(
-                  signInPayload({
-                    uri: identity.uri,
-                    chainId: chain,
-                    address: account?.address,
-                  }),
+                if (!account) throw new Error("Connect a wallet first.");
+                await signInWithWallet(account.address, (bytes) =>
+                  signMessages(bytes),
                 );
-                setNote(`Signed in as ${result.account.address}`);
+                setNote("Signed in to ChatGPTEE.");
+                onSignedIn?.();
               });
             }}
           />

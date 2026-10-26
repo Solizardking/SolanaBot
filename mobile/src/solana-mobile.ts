@@ -2,6 +2,16 @@ import {
   getAddMemoInstruction,
   MEMO_PROGRAM_ADDRESS,
 } from "@solana-program/memo";
+import {
+  address,
+  appendTransactionMessageInstruction,
+  blockhash,
+  compileTransaction,
+  createTransactionMessage,
+  getTransactionEncoder,
+  setTransactionMessageFeePayer,
+  setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
 
 /** Public site for this app. A wallet checks the domain, not the openbotmobile scheme. */
 export const DEFAULT_WALLET_IDENTITY_URI = "https://copilotkit.ai/openbot";
@@ -129,9 +139,50 @@ export function messageBytes(text: string): Uint8Array {
   return new TextEncoder().encode(text);
 }
 
-/** Memo instruction the send button hands to sendTransactions. */
+/** Memo instruction the Mobile Wallet Adapter send button hands to sendTransactions. */
 export function sendMemoInstruction(memo: string = SEND_MEMO_TEXT) {
   return getAddMemoInstruction({ memo });
+}
+
+/**
+ * UTF-8 of the existing sign-message text. Seeker signs these bytes for the
+ * connected address; the address is not folded into the text.
+ */
+export function seekerMessageBytes(
+  address: string,
+  text: string = SIGN_MESSAGE_TEXT,
+): Uint8Array {
+  if (!address.trim()) throw new Error("Sign the message for a connected address.");
+  return messageBytes(text);
+}
+
+/**
+ * Unsigned memo transaction bytes. The fee payer is an address only.
+ * This does not create or store a keypair.
+ */
+export function unsignedMemoTransactionBytes(input: {
+  blockhash: string;
+  feePayer: string;
+  lastValidBlockHeight: bigint;
+  memo?: string;
+}): Uint8Array {
+  const memo = input.memo ?? SEND_MEMO_TEXT;
+  const message = appendTransactionMessageInstruction(
+    getAddMemoInstruction({ memo }),
+    setTransactionMessageLifetimeUsingBlockhash(
+      {
+        blockhash: blockhash(input.blockhash),
+        lastValidBlockHeight: input.lastValidBlockHeight,
+      },
+      setTransactionMessageFeePayer(
+        address(input.feePayer),
+        createTransactionMessage({ version: 0 }),
+      ),
+    ),
+  );
+  return Uint8Array.from(
+    getTransactionEncoder().encode(compileTransaction(message)),
+  );
 }
 
 export function signInPayload(input: {

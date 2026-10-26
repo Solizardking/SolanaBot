@@ -4,7 +4,7 @@ import {
   createSolanaMainnet,
   createSolanaTestnet,
 } from "@wallet-ui/react-native-kit";
-import { openBotCluster, type SolanaClusterChoice } from "./solana-mobile";
+import { chatgpteeCluster, type SolanaClusterChoice } from "./solana-mobile";
 
 /** Build the kit cluster. Mainnet is only constructed when a URL is present. */
 export function clusterFromChoice(choice: SolanaClusterChoice) {
@@ -20,6 +20,6 @@ export function clusterFromChoice(choice: SolanaClusterChoice) {
   }
 }
 
-export function openBotSolanaCluster() {
-  return clusterFromChoice(openBotCluster());
+export function chatgpteeSolanaCluster() {
+  return clusterFromChoice(chatgpteeCluster());
 }

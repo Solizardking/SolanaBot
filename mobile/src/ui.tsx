@@ -1,5 +1,6 @@
 import { type ReactNode, useState } from "react";
 import {
+  Image,
   RefreshControl,
   ScrollView,
   Text,
@@ -9,11 +10,14 @@ import {
 } from "react-native";
 
 export const colors = {
-  link: "#2563eb",
+  background: "#07060b",
+  foreground: "#f4f1ff",
+  link: "#9945FF",
+  accent: "#14F195",
   error: "#b42318",
-  muted: "#6b7280",
-  border: "#d1d5db",
-  success: "#067647",
+  muted: "#b7b0c9",
+  border: "#2a2638",
+  success: "#14F195",
   warning: "#b54708",
 };
 
@@ -24,15 +28,43 @@ export const card: ViewStyle = {
   borderRadius: 8,
   padding: 14,
 };
-export const heading: TextStyle = { fontSize: 22, fontWeight: "600" };
-export const subheading: TextStyle = { fontSize: 18, fontWeight: "600" };
+export const heading: TextStyle = {
+  fontSize: 22,
+  fontWeight: "600",
+  color: colors.foreground,
+};
+export const subheading: TextStyle = {
+  fontSize: 18,
+  fontWeight: "600",
+  color: colors.foreground,
+};
 export const muted: TextStyle = { color: colors.muted };
 export const input: TextStyle = {
   borderWidth: 1,
-  borderColor: "#9ca3af",
+  borderColor: colors.border,
   borderRadius: 8,
   padding: 10,
+  color: colors.foreground,
 };
+
+/** Lobster claw and the Solana bar, shown on the home chrome. */
+export function BrandMark() {
+  return (
+    <View style={{ gap: 12 }}>
+      <Image
+        accessibilityLabel="ChatGPTEE"
+        source={require("../assets/brand/clawd-mascot-dark.png")}
+        style={{ width: 72, height: 72 }}
+      />
+      <Image
+        accessibilityIgnoresInvertColors
+        accessible={false}
+        source={require("../assets/brand/solanaGradientDark.png")}
+        style={{ width: "100%", height: 8, borderRadius: 4 }}
+      />
+    </View>
+  );
+}
 
 /** A pull-to-refresh page. */
 export function Screen({
@@ -46,6 +78,7 @@ export function Screen({
 }) {
   return (
     <ScrollView
+      style={{ flex: 1, backgroundColor: colors.background }}
       contentContainerStyle={{ padding: 20, gap: 16 }}
       refreshControl={
         onRefresh ? (

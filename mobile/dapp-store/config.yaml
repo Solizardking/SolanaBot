@@ -1,0 +1,45 @@
+# Solana dApp Store publishing config for @solana-mobile/dapp-store-cli.
+# Placeholders only. Do not commit keypairs; point the CLI at a publisher
+# keypair kept outside this repo (e.g. `-k ~/secure/publisher.json`).
+publisher:
+  name: <PUBLISHER_NAME>
+  website: https://chatgptee.ai
+  email: <PUBLISHER_SUPPORT_EMAIL>
+  support_email: <PUBLISHER_SUPPORT_EMAIL>
+app:
+  name: ChatGPTEE
+  address: ""          # filled by `dapp-store create app`
+  android_package: ai.chatgptee.mobile
+  urls:
+    license_url: https://chatgptee.ai/terms
+    copyright_url: https://chatgptee.ai/terms
+    privacy_policy_url: https://chatgptee.ai/privacy
+    website: https://chatgptee.ai
+  media:
+    - purpose: icon
+      uri: ../assets/app/dapp-store-icon.png
+release:
+  address: ""          # filled by `dapp-store create release`
+  media:
+    - purpose: screenshot
+      uri: ./media/screenshot-1.png   # add 1080x1920 screenshots before release
+    - purpose: screenshot
+      uri: ./media/screenshot-2.png
+  files:
+    - purpose: install
+      uri: <PATH_TO_SIGNED_RELEASE_APK>
+  catalog:
+    en-US:
+      name: ChatGPTEE
+      short_description: Your Solana Dots, on Seeker.
+      long_description: >
+        Chat with your ChatGPTEE Dots, review their memories, and sign in and
+        approve transactions with your own wallet through Mobile Wallet Adapter.
+        ChatGPTEE never holds your keys.
+      new_in_version: First Solana Mobile release.
+      saga_features: Mobile Wallet Adapter sign-in and transaction approval.
+solana_mobile_dapp_publisher_portal:
+  google_store_package: ""
+  testing_instructions: >
+    Install a Mobile Wallet Adapter wallet (Seed Vault on Seeker, or Phantom /
+    Solflare), open ChatGPTEE, connect, then Sign in with Solana.

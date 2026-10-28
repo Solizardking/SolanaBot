@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Button, Platform, Text, View } from "react-native";
 import {
   messageBytes,
-  chatgpteeIdentity,
+  openBotIdentity,
   SEND_MEMO_TEXT,
   SIGN_MESSAGE_TEXT,
   sendMemoInstruction,
@@ -21,7 +21,7 @@ import {
 import { signInWithWallet } from "./auth";
 import { colors, Problem, Section } from "./ui";
 
-const identity = chatgpteeIdentity();
+const identity = openBotIdentity();
 
 function seekerCode(error: unknown): string {
   if (error instanceof SeekerConnectError) return error.code;

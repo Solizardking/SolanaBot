@@ -1,4 +1,4 @@
-import { chatgpteeCluster } from "./solana-mobile";
+import { openBotCluster } from "./solana-mobile";
 
 const TOKEN_PROGRAMS = [
   "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
@@ -8,7 +8,7 @@ const TOKEN_PROGRAMS = [
 export type Holding = { mint: string; amount: string; decimals: number };
 
 async function rpc<T>(method: string, params: unknown[]): Promise<T> {
-  const response = await fetch(chatgpteeCluster().url, {
+  const response = await fetch(openBotCluster().url, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
